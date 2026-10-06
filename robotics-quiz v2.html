@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Learn Robotics with Creations labs</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+min-height:100vh;
+overflow-x:hidden;
+background:
+radial-gradient(circle at top left,#b266ff44,transparent 35%),
+radial-gradient(circle at bottom right,#7d3cff55,transparent 40%),
+#060612;
+color:white;
+position:relative;
+}
+
+/* Floating particles */
+
+.particle{
+position:fixed;
+border-radius:50%;
+background:#b266ff;
+opacity:.3;
+animation:float 10s infinite linear;
+pointer-events:none;
+}
+
+@keyframes float{
+0%{
+transform:translateY(100vh) scale(.5);
+}
+100%{
+transform:translateY(-120px) scale(1.4);
+}
+}
+
+/* Floating icons */
+
+.icon{
+position:fixed;
+font-size:50px;
+opacity:.08;
+animation:spin 20s linear infinite;
+pointer-events:none;
+}
+
+.icon1{top:10%;left:5%;}
+.icon2{top:30%;right:8%;}
+.icon3{bottom:15%;left:8%;}
+.icon4{bottom:20%;right:10%;}
+
+@keyframes spin{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px 20px;
+position:relative;
+z-index:5;
+}
+
+.brand{
+text-align:center;
+margin-bottom:25px;
+animation:fadeIn 1s ease;
+}
+
+.brand h1{
+font-family:'Orbitron',sans-serif;
+font-size:48px;
+font-weight:800;
+line-height:1.2;
+
+text-shadow:
+0 0 10px #b266ff,
+0 0 20px #b266ff,
+0 0 40px #b266ff;
+}
+
+.brand span{
+color:#b266ff;
+}
+
+.brand p{
+margin-top:15px;
+font-size:18px;
+color:#d7c6ff;
+}
+
+.card{
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(18px);
+border:1px solid rgba(178,102,255,.4);
+padding:30px;
+border-radius:28px;
+margin-bottom:25px;
+
+animation:cardPop .5s ease;
+
+box-shadow:
+0 0 15px rgba(178,102,255,.4),
+0 0 50px rgba(178,102,255,.15);
+}
+
+@keyframes cardPop{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+input,select{
+width:100%;
+padding:16px;
+border:none;
+border-radius:14px;
+margin-bottom:15px;
+background:#141428;
+color:white;
+font-size:16px;
+}
+
+button{
+cursor:pointer;
+border:none;
+transition:.3s;
+}
+
+.primary-btn{
+background:linear-gradient(45deg,#8b3dff,#c55fff);
+padding:16px 28px;
+color:white;
+border-radius:14px;
+font-weight:700;
+font-size:17px;
+}
+
+.primary-btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 25px #b266ff;
+}
+
+.scoreBar{
+display:none;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+padding:18px 25px;
+border-radius:20px;
+
+background:rgba(255,255,255,.06);
+
+border:1px solid rgba(178,102,255,.4);
+}
+
+.question{
+font-size:28px;
+font-weight:700;
+margin-bottom:25px;
+}
+
+.option button{
+width:100%;
+padding:16px;
+margin-bottom:12px;
+background:#16162b;
+border:1px solid #3f2b6f;
+color:white;
+border-radius:15px;
+font-size:16px;
+}
+
+.option button:hover{
+background:#8b3dff;
+transform:translateX(5px);
+}
+
+.correct{
+background:#00c853 !important;
+}
+
+.wrong{
+background:#ff1744 !important;
+}
+
+.result{
+display:none;
+text-align:center;
+}
+
+.result h2{
+font-size:42px;
+font-family:'Orbitron';
+margin-bottom:15px;
+
+text-shadow:
+0 0 15px #b266ff;
+}
+
+.badge{
+font-size:32px;
+margin-top:20px;
+}
+
+.footerBrand{
+text-align:center;
+margin-top:20px;
+color:#b266ff;
+font-weight:700;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+}
+to{
+opacity:1;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="icon icon1">🤖</div>
+<div class="icon icon2">🚁</div>
+<div class="icon icon3">⚙️</div>
+<div class="icon icon4">🦾</div>
+
+<div class="container">
+
+<div class="brand">
+<h1>Learn Robotics with <span>Creations labs</span></h1>
+<p>Future Engineers Start Here 🚀</p>
+</div>
+
+<div id="welcomeScreen">
+
+<div class="card">
+
+<h2 style="margin-bottom:20px;">
+🤖 Student Registration
+</h2>
+
+<input type="text" id="studentName" placeholder="Student Name">
+
+<select id="studentGrade">
+<option value="">Select Grade</option>
+<option>Grade 1</option>
+<option>Grade 2</option>
+<option>Grade 3</option>
+<option>Grade 4</option>
+<option>Grade 5</option>
+<option>Grade 6</option>
+<option>Grade 7</option>
+<option>Grade 8</option>
+<option>Grade 9</option>
+<option>Grade 10</option>
+</select>
+
+<button class="primary-btn" onclick="startQuiz()">
+Start Robotics Adventure 🚀
+</button>
+
+</div>
+
+</div>
+
+<div class="scoreBar" id="scoreBar">
+<div>Question <span id="current">1</span>/<span id="total"></span></div>
+<div>⭐ Score: <span id="score">0</span>/100</div>
+</div>
+
+<div id="quiz"></div>
+
+<div id="previewResult" class="card result">
+
+<h2>Great Job!</h2>
+
+<p style="font-size:22px;">
+Student: <strong id="previewName"></strong>
+</p>
+
+<p style="font-size:22px;margin-top:10px;">
+Score: <strong id="previewScore"></strong>/100
+</p>
+
+<button class="primary-btn" style="margin-top:25px;" onclick="showFinalResult()">
+View Final Result
+</button>
+
+<div class="footerBrand">
+Creations labs
+</div>
+
+</div>
+
+<div id="finalResult" class="card result">
+
+<h2>🏆 Robotics Champion</h2>
+
+<p style="font-size:24px;">
+Student: <strong id="finalStudent"></strong>
+</p>
+
+<p style="font-size:24px;">
+Grade: <strong id="finalGrade"></strong>
+</p>
+
+<p style="font-size:28px;margin-top:15px;">
+Final Score:
+<strong id="finalScore"></strong>/100
+</p>
+
+<div class="badge" id="badge"></div>
+
+<div class="footerBrand">
+Learn Robotics with Creations labs
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* PARTICLES */
+
+for(let i=0;i<40;i++){
+
+let p=document.createElement('div');
+p.className='particle';
+
+let size=Math.random()*8+3;
+
+p.style.width=size+'px';
+p.style.height=size+'px';
+
+p.style.left=Math.random()*100+'%';
+
+p.style.animationDuration=
+(Math.random()*8+8)+'s';
+
+document.body.appendChild(p);
+
+}
+
+/* QUESTIONS
+   Add, remove or edit questions freely. Everything else
+   (question counter, score out of 100, badges) adjusts automatically.
+   answer = index of the correct option (0 = first, 1 = second, ...) */
+
+const quizData=[
+
+{
+q:"What is a robot?",
+options:["Machine following instructions","Animal","Building","Plant"],
+answer:0
+},
+
+{
+q:"What is the brain of a robot?",
+options:["Wheel","Controller","Motor","Sensor"],
+answer:1
+},
+
+{
+q:"What powers a robot?",
+options:["Battery","Wheel","Sensor","Wire"],
+answer:0
+},
+
+{
+q:"What helps a robot move?",
+options:["Motor","Battery","Screen","Light"],
+answer:0
+},
+
+{
+q:"What are the eyes of a robot?",
+options:["Motors","Sensors","Battery","Controller"],
+answer:1
+},
+
+{
+q:"What is coding?",
+options:["Robot food","Robot instructions","Robot paint","Robot toy"],
+answer:1
+},
+
+{
+q:"Can a robot work without instructions?",
+options:["Yes","No","Sometimes","Always"],
+answer:1
+},
+
+{
+q:"What does a sensor do?",
+options:["Detect surroundings","Power robot","Fly drone","Store data"],
+answer:0
+},
+
+{
+q:"Is a drone a robot?",
+options:["No","Only at night","Yes","Maybe"],
+answer:2
+},
+
+{
+q:"Who creates robots?",
+options:["Doctors","Chefs","Engineers","Drivers"],
+answer:2
+}
+
+];
+
+let currentQuestion=0;
+let correctCount=0;   /* number of correct answers */
+let studentName="";
+let studentGrade="";
+
+const quiz=document.getElementById('quiz');
+
+/* Score as a percentage (0-100), based on however many questions exist */
+function getPercent(){
+return Math.round((correctCount/quizData.length)*100);
+}
+
+/* Show the real total in the header */
+document.getElementById('total').innerText=quizData.length;
+
+function startQuiz(){
+
+studentName=document.getElementById('studentName').value;
+studentGrade=document.getElementById('studentGrade').value;
+
+if(studentName===""){
+alert("Enter Student Name");
+return;
+}
+
+if(studentGrade===""){
+alert("Select Grade");
+return;
+}
+
+document.getElementById('welcomeScreen').style.display='none';
+document.getElementById('scoreBar').style.display='flex';
+
+loadQuestion();
+}
+
+function loadQuestion(){
+
+if(currentQuestion>=quizData.length){
+
+quiz.style.display='none';
+document.getElementById('scoreBar').style.display='none';
+
+document.getElementById('previewResult').style.display='block';
+
+document.getElementById('previewName').innerText=studentName;
+document.getElementById('previewScore').innerText=getPercent();
+
+return;
+}
+
+document.getElementById('current').innerText=currentQuestion+1;
+
+let q=quizData[currentQuestion];
+
+quiz.innerHTML=`
+
+<div class="card">
+
+<div class="question">
+${q.q}
+</div>
+
+${q.options.map((o,i)=>`
+
+<div class="option">
+<button onclick="selectAnswer(this,${i})">
+${o}
+</button>
+</div>
+
+`).join('')}
+
+<button
+id="nextBtn"
+class="primary-btn"
+style="display:none;margin-top:15px;"
+onclick="nextQuestion()">
+Next Question →
+</button>
+
+<div class="footerBrand">
+Creations labs
+</div>
+
+</div>
+`;
+}
+
+function selectAnswer(btn,index){
+
+const buttons=document.querySelectorAll('.option button');
+
+buttons.forEach(b=>b.disabled=true);
+
+if(index===quizData[currentQuestion].answer){
+
+btn.classList.add('correct');
+correctCount++;
+document.getElementById('score').innerText=getPercent();
+
+}else{
+
+btn.classList.add('wrong');
+buttons[quizData[currentQuestion].answer]
+.classList.add('correct');
+
+}
+
+document.getElementById('nextBtn').style.display='inline-block';
+}
+
+function nextQuestion(){
+
+currentQuestion++;
+loadQuestion();
+
+}
+
+function showFinalResult(){
+
+document.getElementById('previewResult').style.display='none';
+
+document.getElementById('finalResult').style.display='block';
+
+const percent=getPercent();
+
+document.getElementById('finalStudent').innerText=studentName;
+document.getElementById('finalGrade').innerText=studentGrade;
+document.getElementById('finalScore').innerText=percent;
+
+let badge='';
+
+if(percent>=90){
+badge='🥇 Robotics Master';
+}
+else if(percent>=70){
+badge='🥈 Robotics Explorer';
+}
+else if(percent>=50){
+badge='🥉 Future Engineer';
+}
+else{
+badge='🚀 Keep Learning';
+}
+
+document.getElementById('badge').innerText=badge;
+}
+
+</script>
+
+</body>
+</html>
